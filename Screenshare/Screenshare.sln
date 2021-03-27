@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{5E947E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Screenshare.Main", "Source\Screenshare.Main\Screenshare.Main.csproj", "{CB036DDC-7BF1-4737-B37A-FCDC2444BF3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Screenshare.TestClient", "Client\Screenshare.TestClient\Screenshare.TestClient.csproj", "{4B9A57E9-EA03-4F66-86E5-016AA509A043}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +21,17 @@ Global
 		{CB036DDC-7BF1-4737-B37A-FCDC2444BF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB036DDC-7BF1-4737-B37A-FCDC2444BF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB036DDC-7BF1-4737-B37A-FCDC2444BF3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B9A57E9-EA03-4F66-86E5-016AA509A043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B9A57E9-EA03-4F66-86E5-016AA509A043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B9A57E9-EA03-4F66-86E5-016AA509A043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B9A57E9-EA03-4F66-86E5-016AA509A043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CB036DDC-7BF1-4737-B37A-FCDC2444BF3F} = {3940B8D6-51D1-4274-9D28-E92D4AE25796}
+		{4B9A57E9-EA03-4F66-86E5-016AA509A043} = {5E947E5E-D4A0-409B-A45A-E6D0068A7554}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5EB0CCE7-4CFC-44F5-ADAC-47C0F2DD5139}
