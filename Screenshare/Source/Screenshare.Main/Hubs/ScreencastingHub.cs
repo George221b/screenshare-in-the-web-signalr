@@ -19,7 +19,7 @@ namespace Screenshare.Main.Hubs
         {
             if (GlobalCollections.users.ContainsKey(masterGuid))
             {
-                Master client = GlobalCollections.users.[masterGuid];
+                Master client = GlobalCollections.users[masterGuid];
 
                 await Clients.Caller.receiveInitialMasterBody(client.Body, client.Head, client.Width, client.Height);
             }

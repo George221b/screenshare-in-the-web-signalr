@@ -14,5 +14,12 @@ namespace Screenshare.Main.Controllers
 
 			return View();
 		}
+
+		public ActionResult Slave(string masterGuid)
+		{
+			ViewBag.MasterGuid = masterGuid;
+
+			return View();
+		}
 	}
 }
