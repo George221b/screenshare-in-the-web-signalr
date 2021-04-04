@@ -45,7 +45,7 @@
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
-	<script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+	<script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
 	<script src="~/signalr/hubs"></script>
 	<script>
 		$(function () {
@@ -67,8 +67,10 @@
 				let windowWidth = $(window).width();
 				let userAgent = navigator.userAgent;
 
-				screencasting.server.receiveBody(masterGuid);
-				screencasting.server.sendSlaveWindowDimensions(masterGuid, windowWidth, windowHeight, userAgent);
+				$.connection.hub.start().done(function () {
+					console.log('---Connected to signalR server via WebSockets');
+					screencasting.server.receiveBody(masterGuid);
+				});
 			}
 		});
 

@@ -3,5 +3,6 @@
 	public class ScreenshareDetailsOutputModel
 	{
 		public string GUID { get; set; }
+		public string URL { get; set; }
 	}
 }

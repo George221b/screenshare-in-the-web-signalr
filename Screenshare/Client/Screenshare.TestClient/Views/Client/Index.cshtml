@@ -13,9 +13,9 @@
 	<title>Screenshare Car Offer</title>
 
 	<!-- Bootstrap core CSS -->
-	<link href="~/Content/boostrap-5.0.0/bootstrap.min.css" rel="stylesheet">
+	<link href="http://localhost:1672/Content/boostrap-5.0.0/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
-	<link href="~/Content/dashboard.css" rel="stylesheet">
+	<link href="http://localhost:1672/Content/dashboard.css" rel="stylesheet">
 </head>
 <body>
 
@@ -45,12 +45,6 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">
-								<span data-feather="file"></span>
-								Orders
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">
 								<span data-feather="shopping-cart"></span>
 								Products
 							</a>
@@ -58,7 +52,7 @@
 						<li class="nav-item">
 							<a class="nav-link active" href="#">
 								<span data-feather="users"></span>
-								Customers
+								Customer Offer
 							</a>
 						</li>
 						<li class="nav-item">
@@ -70,7 +64,7 @@
 						<li class="nav-item">
 							<a class="nav-link" href="#">
 								<span data-feather="layers"></span>
-								Integrations
+								Documents
 							</a>
 						</li>
 					</ul>
@@ -107,6 +101,24 @@
 							</a>
 						</li>
 					</ul>
+
+					<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+						<span>Share screen data:</span>
+						<a class="link-secondary" href="#" aria-label="Add a new report">
+							<span data-feather="plus-circle"></span>
+						</a>
+					</h6>
+					<ul class="nav flex-column mb-2">
+						<li class="nav-item" id="connect">
+							<a class="nav-link" href="#">
+								<span data-feather="monitor"></span>
+								Start sharing
+							</a>
+						</li>
+						<li class="nav-item">
+							<span class="nav-link" id="slaveData"></span>
+						</li>
+					</ul>
 				</div>
 			</nav>
 
@@ -132,7 +144,157 @@
 	<script src="~/Scripts/boostrap-5.0.0/bootstrap.bundle.min.js"></script>
 	<script src="~/Scripts/feather.min.js"></script>
 	<script src="~/Scripts/boostrap-5.0.0/dashboard.js"></script>
+	@Scripts.Render("~/bundles/jquery")
 
-	<script src="~/Scripts/src/screenshare_main.js"></script>
+	<script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+	<script src="https://localhost:44383/signalr/hubs"></script>
+	@*<script src="~/Scripts/src/screenshare_main.js"></script>*@
+	<script type="text/javascript">
+		$(function () {
+			window.baseUrl = 'https://localhost:44383';
+			window.areEventsAttached = false;
+
+			// Create master and send body to server
+			$('#connect').click(onClickedConnect);
+		});
+
+		function onClickedConnect() {
+			let screenshot = document.documentElement;
+			serializeInputs(screenshot);
+			serializeScrollable(screenshot);
+			let body = screenshot.children[1].innerHTML;
+
+			var headContent = document.getElementsByTagName('head')[0];
+			//serializeInputs(headContent);
+			let head = headContent.innerHTML;
+
+			let height = $(window).height();
+			let width = $(window).width();
+
+			if (sessionStorage.getItem('masterGuid') == null) {
+				$.ajax({
+					type: 'POST',
+					url: window.baseUrl + '/api/Screencast/RequestConnection',
+					dataType: 'json',
+					data: {
+						'Body': body,
+						'Head': head,
+						'Width': width,
+						'Height': height
+					},
+					success: onMasterGuidGenerated
+				});
+			}
+		}
+
+		function onMasterGuidGenerated(apiResponse) {
+			sessionStorage.setItem('masterGuid', apiResponse.GUID);
+			$('#slaveData').text(`${apiResponse.URL}`);
+			let masterGuid = apiResponse.GUID;
+
+			$.connection.hub.url = window.baseUrl + '/signalr';
+			let screencasting = $.connection.screencastingHub;
+
+			$.connection.hub.qs = 'uuid=' + masterGuid + '&master=true';
+			$.connection.hub.logging = true;
+			/*	screencasting.client.generatedUrlFromServer = generatedUrlFromServer;*/
+
+			if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
+				$.connection.hub.start().done(function () {
+					console.log('---Connected to signalR server via WebSockets');
+					/*			screencasting.server.generateUrl(masterGuid, window.baseUrl);*/
+				});
+			}
+
+			//function generatedUrlFromServer(url) {
+			//	$('#slaveData').text(`Sharing data for ${url}`);
+			//}
+		}
+
+		function serializeInputs(ele) {
+			var _self = this;
+
+			if (!ele || !ele.nodeName) {
+				return;
+			}
+
+			switch (ele.nodeName) {
+				default:
+					if (ele.children) {
+						for (var a in ele.children) {
+							serializeInputs(ele.children[a])
+						}
+					}
+					break;
+				case 'SCRIPT':
+					ele.parentNode.removeChild(ele);
+					break;
+				case 'INPUT':
+					switch (ele.type) {
+						default:
+							ele.setAttribute('value', ele.value);
+							break;
+						case 'checkbox':
+						case 'radio':
+							if (ele.checked) {
+								ele.setAttribute('checked', 'checked');
+							}
+							else {
+								ele.removeAttribute('checked');
+							}
+							break;
+						case 'file':
+							break;
+						case 'password':
+							//Do not send password values...
+							// ele.setAttribute('value', ele.value);
+							break;
+					}
+					break;
+				case 'TEXTAREA':
+					ele.innerText = ele.value;
+					break;
+				case 'SELECT':
+					switch (ele.type) {
+						case 'select-one':
+							for (var i = ele.options.length - 1; i >= 0; i--) {
+								if (ele.options[i].selected) {
+									ele.options[i].setAttribute('selected', 'selected');
+								}
+								else {
+									ele.options[i].removeAttribute('selected');
+								}
+							}
+							break;
+						case 'select-multiple':
+							for (i = ele.options.length - 1; i >= 0; i--) {
+								if (ele.options[i].selected) {
+									ele.options[i].setAttribute('selected', 'selected');
+								}
+								else {
+									ele.options[i].removeAttribute('selected');
+								}
+							}
+							break;
+					}
+					break;
+			}
+		}
+
+		function serializeScrollable(ele) {
+			var _self = this;
+			if (!ele || !ele.nodeName) {
+				return;
+			}
+			if (ele.scrollTop || ele.scrollLeft || ele.getAttribute('data-scroll')) {
+				ele.setAttribute('data-scroll', `${~~(ele.scrollTop)},${~~(ele.scrollLeft)}`);
+			}
+			if (ele.children) {
+				for (var a in ele.children) {
+					serializeScrollable(ele.children[a])
+				}
+			}
+		}
+	</script>
 </body>
 </html>
