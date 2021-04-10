@@ -58,14 +58,10 @@
 				let screencasting = $.connection.screencastingHub;
 
 				screencasting.client.receiveInitialMasterBody = receiveInitialMasterBody;
+				screencasting.client.receiveMasterBody = receiveMasterBody;
 
 				$.connection.hub.qs = 'uuid=' + masterGuid + '&master=false';
 				$.connection.hub.logging = true;
-
-				// Size of browser viewport.
-				let windowHeight = $(window).height();
-				let windowWidth = $(window).width();
-				let userAgent = navigator.userAgent;
 
 				$.connection.hub.start().done(function () {
 					console.log('---Connected to signalR server via WebSockets');
@@ -84,6 +80,24 @@
 			iframeWindow.document.head.innerHTML = head;
 			iframeWindow.document.body.innerHTML = body;
 			iframeWindow.document.body.innerHTML.replace('</body>', '<style> *{animation-duration: 0s !important} html, body {user-select: none !important; pointer-event: none !important;}</style></body>');
+		}
+
+		function receiveMasterBody(body, width, height) {
+			let iframe = document.getElementById('screenshare');
+			let iframeWindow = iframe.contentWindow;
+
+			$("#screenshare").width(width);
+			$("#screenshare").height(height);
+
+			iframeWindow.document.body.innerHTML = body;
+			iframeWindow.document.body.innerHTML.replace('</body>', '<style> *{animation-duration: 0s !important} html, body {user-select: none !important; pointer-event: none !important;}</style></body>');
+
+			let jBody = $(iframeWindow.document.body);
+			let scrollElems = jBody.find('[data-scroll]');
+			for (let a = 0; a < scrollElems.length; a++) {
+				let scrollPositions = scrollElems[a].getAttribute('data-scroll').split(',').map(x => +x);
+				$(scrollElems[a]).scrollTop(scrollPositions[0]);
+			}
 		}
 
 		function createEmptyHtmlTemplateInIframe() {

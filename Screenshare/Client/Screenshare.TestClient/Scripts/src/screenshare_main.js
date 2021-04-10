@@ -50,7 +50,23 @@ function onMasterGuidGenerated(apiResponse) {
 		});
 	}
 
+	if (window.areEventsAttached === false) {
+		window.areEventsAttached = true;
 
+		// Events for all inputs, textareas and selects
+		$('input, select, textarea').each(
+			function (index) {
+				var input = $(this);
+				input.on('input', function () {
+					let screenshot = document.getElementsByTagName('body')[0];
+					serializeInputs(screenshot);
+					serializeScrollable(screenshot);
+					let body = screenshot.innerHTML;
+					screencasting.server.updateSlaveBody(masterGuid, body);
+				});
+			}
+		);
+	}
 }
 
 function serializeInputs(ele) {
