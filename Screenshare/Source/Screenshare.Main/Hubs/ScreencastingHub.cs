@@ -49,6 +49,20 @@ namespace Screenshare.Main.Hubs
             }
         }
 
+        public async Task UpdateSlaveScroll(string masterGuid, int scrollPositionX, int scrollPositionY)
+        {
+            Master masterClient = GlobalCollections.users[masterGuid];
+            masterClient.ScrollTop = scrollPositionY;
+            masterClient.ScrollLeft = scrollPositionX;
+
+            foreach (Slave hubClient in masterClient.Slaves)
+            {
+                var client = Clients.Client(hubClient.ConnectionID);
+
+                await client.receiveMasterScroll(scrollPositionX, scrollPositionY);
+            }
+        }
+
         public override Task OnConnected()
         {
             var masterUuid = Context.QueryString["uuid"];

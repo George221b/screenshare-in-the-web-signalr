@@ -66,6 +66,14 @@ function onMasterGuidGenerated(apiResponse) {
 				});
 			}
 		);
+
+		// Event for scrolling
+		document.addEventListener('scroll', function (event) {
+			let screenshotScrollY = $(document).scrollTop();
+			let screenshotScrollX = $(document).scrollLeft();
+
+			screencasting.server.updateSlaveScroll(masterGuid, screenshotScrollX, screenshotScrollY);
+		}, true /*Capture event*/);
 	}
 }
 

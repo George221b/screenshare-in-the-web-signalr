@@ -59,6 +59,7 @@
 
 				screencasting.client.receiveInitialMasterBody = receiveInitialMasterBody;
 				screencasting.client.receiveMasterBody = receiveMasterBody;
+				screencasting.client.receiveMasterScroll = receiveMasterScroll;
 
 				$.connection.hub.qs = 'uuid=' + masterGuid + '&master=false';
 				$.connection.hub.logging = true;
@@ -98,6 +99,13 @@
 				let scrollPositions = scrollElems[a].getAttribute('data-scroll').split(',').map(x => +x);
 				$(scrollElems[a]).scrollTop(scrollPositions[0]);
 			}
+		}
+
+		function receiveMasterScroll(xPercent, yPercent) {
+			let iframe = document.getElementById('screenshare');
+			let iframeWindow = iframe.contentWindow;
+
+			iframeWindow.scrollTo(xPercent, yPercent);
 		}
 
 		function createEmptyHtmlTemplateInIframe() {
