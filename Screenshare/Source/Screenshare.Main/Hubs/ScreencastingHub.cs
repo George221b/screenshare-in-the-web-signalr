@@ -25,6 +25,17 @@ namespace Screenshare.Main.Hubs
             }
         }
 
+        public async Task SaveInitialMasterData(string masterGuid, string body, string head, int width, int height)
+		{
+            Master masterClient = GlobalCollections.users[masterGuid];
+            masterClient.Body = body;
+            masterClient.Head = head;
+            masterClient.Width = width;
+            masterClient.Height = height;
+
+            await Task.CompletedTask;
+        }
+
         public override Task OnConnected()
         {
             var masterUuid = Context.QueryString["uuid"];

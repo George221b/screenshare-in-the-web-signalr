@@ -15,13 +15,7 @@ namespace Screenshare.Main.Controllers
 		[HttpPost]
 		public IHttpActionResult RequestConnection(MasterDataInputModel inputModel)
 		{
-			Master client = new Master
-			{
-				Body = inputModel.Body,
-				Head = inputModel.Head,
-				Width = inputModel.Width,
-				Height = inputModel.Height
-			};
+			Master client = new Master();
 
 			GlobalCollections.users[client.GUID] = client;
 			string slaveUrl = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.AbsolutePath, string.Empty) + $"/home/slave?masterGuid={client.GUID}";

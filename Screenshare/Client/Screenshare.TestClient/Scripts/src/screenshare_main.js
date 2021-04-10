@@ -7,28 +7,12 @@
 });
 
 function onClickedConnect() {
-	let screenshot = document.documentElement;
-	serializeInputs(screenshot);
-	serializeScrollable(screenshot);
-	let body = screenshot.children[1].innerHTML;
-
-	var headContent = document.getElementsByTagName('head')[0];
-	//serializeInputs(headContent);
-	let head = headContent.innerHTML;
-
-	let height = $(window).height();
-	let width = $(window).width();
-
 	if (sessionStorage.getItem('masterGuid') == null) {
 		$.ajax({
 			type: 'POST',
 			url: window.baseUrl + '/api/Screencast/RequestConnection',
 			dataType: 'json',
 			data: {
-				'Body': body,
-				'Head': head,
-				'Width': width,
-				'Height': height
 			},
 			success: onMasterGuidGenerated
 		});
@@ -40,6 +24,19 @@ function onMasterGuidGenerated(apiResponse) {
 	$('#slaveData').text(`${apiResponse.URL}`);
 	let masterGuid = apiResponse.GUID;
 
+	// Get master data
+	let screenshot = document.documentElement;
+	serializeInputs(screenshot);
+	serializeScrollable(screenshot);
+	let body = screenshot.children[1].innerHTML;
+
+	var headContent = document.getElementsByTagName('head')[0];
+	let head = headContent.innerHTML;
+
+	let height = $(window).height();
+	let width = $(window).width();
+
+	// Open SignalR connection and send master data
 	$.connection.hub.url = window.baseUrl + '/signalr';
 	let screencasting = $.connection.screencastingHub;
 
@@ -49,14 +46,11 @@ function onMasterGuidGenerated(apiResponse) {
 
 	if ($.connection.hub && $.connection.hub.state === $.signalR.connectionState.disconnected) {
 		$.connection.hub.start().done(function () {
-			console.log('---Connected to signalR server via WebSockets');
-			/*			screencasting.server.generateUrl(masterGuid, window.baseUrl);*/
+			screencasting.server.saveInitialMasterData(masterGuid, body, head, width, height);
 		});
 	}
 
-	//function generatedUrlFromServer(url) {
-	//	$('#slaveData').text(`Sharing data for ${url}`);
-	//}
+
 }
 
 function serializeInputs(ele) {
