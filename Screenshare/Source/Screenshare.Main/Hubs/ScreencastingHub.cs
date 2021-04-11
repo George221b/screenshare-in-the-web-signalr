@@ -76,6 +76,21 @@ namespace Screenshare.Main.Hubs
             }
         }
 
+        public async Task UpdateSlaveResizedBody(string masterGuid, string body, int width, int height)
+        {
+            Master masterClient = GlobalCollections.users[masterGuid];
+            masterClient.Body = body;
+            masterClient.Width = width;
+            masterClient.Height = height;
+
+            foreach (Slave hubClient in masterClient.Slaves)
+            {
+                var client = Clients.Client(hubClient.ConnectionID);
+
+                await client.receiveMasterBody(body, masterClient.Width, masterClient.Height);
+            }
+        }
+
         public override Task OnConnected()
         {
             var masterUuid = Context.QueryString["uuid"];

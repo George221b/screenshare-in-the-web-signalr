@@ -84,6 +84,18 @@ function onMasterGuidGenerated(apiResponse) {
 				screencasting.server.updateSlaveMousePosition(masterGuid, mouseX, mouseY);
 			});
 		}, 1000);
+
+		// Event for window resizing
+		window.addEventListener('resize', function (event) {
+			let screenshot = document.documentElement;
+			serializeInputs(screenshot);
+			let body = screenshot.children[1].innerHTML;
+
+			let height = $(window).height();
+			let width = $(window).width();
+
+			screencasting.server.updateSlaveResizedBody(masterGuid, body, width, height);
+		});
 	}
 }
 
