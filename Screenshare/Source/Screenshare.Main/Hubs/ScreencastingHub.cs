@@ -63,6 +63,19 @@ namespace Screenshare.Main.Hubs
             }
         }
 
+        public async Task UpdateSlaveMousePosition(string masterGuid, int mousePositionX, int mousePositionY)
+        {
+            Master masterClient = GlobalCollections.users[masterGuid];
+            masterClient.CursorTop = mousePositionY;
+            masterClient.CursorLeft = mousePositionX;
+            foreach (Slave hubClient in masterClient.Slaves)
+            {
+                var client = Clients.Client(hubClient.ConnectionID);
+
+                await client.receiveMasterMouse(mousePositionX, mousePositionY);
+            }
+        }
+
         public override Task OnConnected()
         {
             var masterUuid = Context.QueryString["uuid"];

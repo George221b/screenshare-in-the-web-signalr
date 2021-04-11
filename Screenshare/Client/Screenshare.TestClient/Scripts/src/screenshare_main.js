@@ -74,6 +74,16 @@ function onMasterGuidGenerated(apiResponse) {
 
 			screencasting.server.updateSlaveScroll(masterGuid, screenshotScrollX, screenshotScrollY);
 		}, true /*Capture event*/);
+
+		// Event for mouse position
+		setTimeout(function () {
+			$(document).on('mousemove', function (event) {
+				let mouseX = event.clientX;
+				let mouseY = event.clientY;
+
+				screencasting.server.updateSlaveMousePosition(masterGuid, mouseX, mouseY);
+			});
+		}, 1000);
 	}
 }
 

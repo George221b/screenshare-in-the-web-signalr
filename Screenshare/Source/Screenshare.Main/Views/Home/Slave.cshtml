@@ -60,6 +60,7 @@
 				screencasting.client.receiveInitialMasterBody = receiveInitialMasterBody;
 				screencasting.client.receiveMasterBody = receiveMasterBody;
 				screencasting.client.receiveMasterScroll = receiveMasterScroll;
+				screencasting.client.receiveMasterMouse = receiveMasterMouse;
 
 				$.connection.hub.qs = 'uuid=' + masterGuid + '&master=false';
 				$.connection.hub.logging = true;
@@ -106,6 +107,14 @@
 			let iframeWindow = iframe.contentWindow;
 
 			iframeWindow.scrollTo(xPercent, yPercent);
+		}
+
+		function receiveMasterMouse(mousePositionX, mousePositionY) {
+			$('#cursor')
+				.css('position', 'absolute')
+				.css('top', `${mousePositionY}px`)
+				.css('left', `${mousePositionX}px`)
+				.css('z-index', '1');
 		}
 
 		function createEmptyHtmlTemplateInIframe() {
