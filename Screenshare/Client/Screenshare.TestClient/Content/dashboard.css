@@ -3,9 +3,9 @@ body {
 }
 
 .feather {
-  width: 16px;
-  height: 16px;
-  vertical-align: text-bottom;
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
 }
 
 .share-screen-main-color {
@@ -113,4 +113,21 @@ body {
     .bd-placeholder-img-lg {
         font-size: 3.5rem;
     }
+}
+
+/*
+ * Custom below
+ */
+.imageMaxWidth {
+    max-width: 100%;
+}
+
+.alignVertical {
+    display: block;
+    height: 100% !important;
+    vertical-align: middle !important;
+}
+
+.feather-max {
+    width: 100%;
 }

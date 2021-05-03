@@ -96,6 +96,46 @@ function onMasterGuidGenerated(apiResponse) {
 
 			screencasting.server.updateSlaveResizedBody(masterGuid, body, width, height);
 		});
+
+		//Events for textarea div scrolling
+		let allElementsToAttachOnScroll = document.querySelectorAll('textarea, div, select');
+
+		allElementsToAttachOnScroll.forEach(function (entry) {
+			entry.onscroll = logScroll;
+		});
+
+		function logScroll(e) {
+			let screenshot = document.documentElement;
+			serializeInputs(screenshot);
+			serializeScrollable(screenshot);
+			let body = screenshot.children[1].innerHTML;
+
+			screencasting.server.updateSlaveBody(masterGuid, body);
+		}
+
+		// Event for complex DOM changes
+		const targetNode = document.getElementById('sidebarMenu');
+		const config = {
+                attributes: true,
+                characterData: false,
+                childList: false,
+                subtree: true,
+                attributeOldValue: true,
+                characterDataOldValue: false
+		};
+
+		const callback = function (mutationsList, observer) {
+			console.log(mutationsList);
+
+			let screenshot = document.getElementsByTagName('body')[0];
+			serializeInputs(screenshot);
+			serializeScrollable(screenshot);
+			let body = screenshot.innerHTML;
+			screencasting.server.updateSlaveBody(masterGuid, body);
+		};
+		const observer = new MutationObserver(callback);
+		observer.observe(targetNode, config);
+		//observer.disconnect();
 	}
 }
 
