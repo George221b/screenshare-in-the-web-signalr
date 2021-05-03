@@ -166,6 +166,9 @@
     <Content Include="Scripts\boostrap-5.0.0\dashboard.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\boostrap-5.0.0\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\boostrap-5.0.0\bootstrap.min.css.map" />
+    <Content Include="Scripts\feather.min.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\feather.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -180,7 +183,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\src\screenshare_main.js" />
+    <Content Include="Scripts\src\screenshare_master.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
