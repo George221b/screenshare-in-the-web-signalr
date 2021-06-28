@@ -21,7 +21,8 @@ function onClickedConnect() {
 
 function onMasterGuidGenerated(apiResponse) {
 	sessionStorage.setItem('masterGuid', apiResponse.GUID);
-	$('#slaveData').text(`${apiResponse.URL}`);
+	/*	$('#slaveData').text(`${apiResponse.URL}`);*/
+	$('#slaveData').append(`<a href="${apiResponse.URL}" class="text-decoration-none">Screenshare link!</a>`);
 	let masterGuid = apiResponse.GUID;
 
 	// Get master data
@@ -116,12 +117,12 @@ function onMasterGuidGenerated(apiResponse) {
 		// Event for complex DOM changes
 		const targetNode = document.getElementById('sidebarMenu');
 		const config = {
-                attributes: true,
-                characterData: false,
-                childList: false,
-                subtree: true,
-                attributeOldValue: true,
-                characterDataOldValue: false
+			attributes: true,
+			characterData: false,
+			childList: false,
+			subtree: true,
+			attributeOldValue: true,
+			characterDataOldValue: false
 		};
 
 		const callback = function (mutationsList, observer) {
