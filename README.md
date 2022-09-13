@@ -1,9 +1,11 @@
-This project was created for [Burgas Free University](https://www.bfu.bg/en).  
+<p style="text-align: center;">
+This project was created for [Burgas Free University](https://www.bfu.bg/en) as a project defense for Bachelor degree in Software Engineering.  
 
 ![Burgas Free University Logo](https://www.bfu.bg/assets/images/logo_en.jpg)
+</p>
 
 ## Project Description
-Preview:
+Video preview of the project:
 
 https://user-images.githubusercontent.com/20871961/124635934-aaf87a80-de90-11eb-9e52-4b8f0a7a034e.mp4
 
@@ -13,7 +15,7 @@ On the video we can see the `master` on the left side and the `slave` on the rig
 ## How to use
 
 ## Documentation
-Very detailed documentation on Bulgarian will follow. (50-60 pages) with short English documentation.
+
 
 
 ## License
