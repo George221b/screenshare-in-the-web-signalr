@@ -1,5 +1,5 @@
-<div align="center">This project was created for <a href="https://www.bfu.bg/en">Burgas Free University</a> as a project defense for Bachelor degree in Software Engineering.</div>
-
+<div align="center"><h3 align="center">This project was created for <a href="https://www.bfu.bg/en">Burgas Free University</a> as a project defense for Bachelor degree in Software Engineering.</h3></div>
+<p></p>
 
 <p align="center">
   <img src="https://www.bfu.bg/assets/images/logo_en.jpg" alt="Burgas Free University Logo" />
