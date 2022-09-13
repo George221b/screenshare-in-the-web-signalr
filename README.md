@@ -1,8 +1,6 @@
-<p style="text-align: center;">
 This project was created for [Burgas Free University](https://www.bfu.bg/en) as a project defense for Bachelor degree in Software Engineering.  
 
 ![Burgas Free University Logo](https://www.bfu.bg/assets/images/logo_en.jpg)
-</p>
 
 ## Project Description
 Video preview of the project:
